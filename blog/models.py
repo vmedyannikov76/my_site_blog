@@ -2,6 +2,12 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status='status_draft')  # Выводим только статьи со статусом Опубликовано
+
+
 class Post(models.Model):
     """Модель для хранения данных о содержимом блога"""
     STATUS_CHOICES = (  # Список из которого можно выбрать вариант, обозначается вначале класса
@@ -12,7 +18,7 @@ class Post(models.Model):
                              # человекопонятное наименование поля в административном сайте
                              )
     slug = models.SlugField(max_length=250, verbose_name='Слаг',  # slug набор символов для формирования urls
-                            unique_for_date='publish', # Уникальное поле в разрезе даты создания.
+                            unique_for_date='publish',  # Уникальное поле в разрезе даты создания.
                             # "publish"-указываем как строку, а не как переменную т.к. данная переменная будет объявлена
                             # ниже данного поля которое на нее ссылается.
                             )
@@ -33,6 +39,9 @@ class Post(models.Model):
     status = models.CharField(max_length=25,
                               choices=STATUS_CHOICES,  # Предоставляем выбор из списка
                               default='draft')  # значение по умолчанию
+
+    objects = models.Manager()  # Менеджер по умолчанию
+    published = PublishedManager()  # Наш новый менеджер
 
     class Meta:
         """Позволяет изменить метаданные родительского класса возможно указать сортировку, названия и тп"""
