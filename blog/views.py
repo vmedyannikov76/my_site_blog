@@ -13,7 +13,7 @@ def post_detail(request, year, month, day, post):  # Обработчик для
     post = get_object_or_404(Post,
                              slug=post,
                              status='status_published',
-                             publich__year=year,
+                             publish__year=year,
                              publish__month=month,
                              publish__day=day,
                              )
