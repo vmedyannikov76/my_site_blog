@@ -1,17 +1,33 @@
-{% extends "blog/base.html" %}
+{% extends 'blog/base.html' %}
+
 {% block title %}
-    <h1>Мой блог</h1>
+    Статьи
 {% endblock %}
 
 {% block content %}
     {% for post in posts %}
-        <h2>
-            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-        </h2>
-        <p class="date">Опубликовано: {{ post.publish }} автором: {{ post.author }}</p>
-        {{ post.body|truncatewords:30|linebreaks }}
+
+        <div class="card">
+            <img src="https://stihi.ru/pics/2015/04/25/5852.jpg" style="max-width: 100%" class="card-img-top"
+                 alt="заглушка для картинки">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.body|truncatewords:30|linebreaks }}</p>
+                <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Читать полностью</a>
+            </div>
+        </div>
 
     {% endfor %}
-    {% include "blog/pagination.html" with page=page_obj %}
+{% endblock %}
+
+{% block links_title %}
+    <ul>
+        {% for post in posts %}
+            <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+
+        {% endfor %}
+
+    </ul>
+
 
 {% endblock %}
