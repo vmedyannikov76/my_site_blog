@@ -1,0 +1,9 @@
+{% extends 'blog/base.html' %}
+{% block title %} {{ post.title }} {% endblock %}
+{% block content %}
+    <img src="https://stihi.ru/pics/2015/04/25/5852.jpg" style="max-width: 100%" class="card-img-top"
+                 alt="заглушка для картинки">
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.body|linebreaks }}</p>
+
+{% endblock %}
